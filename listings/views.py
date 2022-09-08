@@ -1,7 +1,13 @@
 from django.shortcuts import render
+from .models import Listing
+
 
 def index(request):
-    return render(request, 'listings/listings.html')
+    listings = Listing.objects.order_by('-list_date').filter(is_published=True)[:3]
+    context = {
+        'listings': listings
+    }
+    return render(request, 'listings/listings.html', context)
 
 def listings(request):
     return render(request, 'listings/listings.html')
